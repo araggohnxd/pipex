@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:43:19 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/03 19:14:50 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/05 22:57:08 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,7 +309,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 * @param s2 Second string.
 * @return A pointer to the created string or NULL on error.
 */
-char	*ft_strjoin_free(char *s1, char *s2);
+char	*ft_strjoin_free(char **s1, char **s2);
 
 /**
 * @brief Creates a copy of s1 with the characters specified in set
