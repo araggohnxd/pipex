@@ -3,7 +3,7 @@ name: CI Vogsphere
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   vogsphere:
@@ -26,6 +26,6 @@ jobs:
         run: |
           VOGSPHERE_DEFAULT_BRANCH=$(git remote show vogsphere | sed -n '/HEAD branch/s/.*: //p')
           if [ $VOGSPHERE_DEFAULT_BRANCH == "(unknown)" ]; then
-            VOGSPHERE_DEFAULT_BRANCH="main"
+            VOGSPHERE_DEFAULT_BRANCH="master"
           fi
           git push vogsphere $VOGSPHERE_DEFAULT_BRANCH
