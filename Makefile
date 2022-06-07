@@ -2,7 +2,7 @@ NAME				= pipex
 
 HEADER				= ${SRCS_PATH}/pipex.h
 
-SRCS_FILE			= pipex.c check_input_errors.c
+SRCS_FILE			= pipex.c argument_parser.c command_execution.c
 SRCS_PATH			= ./sources
 SRCS				= ${addprefix ${SRCS_PATH}/,${SRCS_FILE}}
 
@@ -31,7 +31,7 @@ ${LIBFT}:
 					${MAKE} -C ${LIBFT_PATH} bonus
 
 run:				all
-					./pipex
+					./pipex infile_ft "ping -c 3 google.com" "grep rtt" outfile_ft && cat outfile_ft
 
 clean:
 					${MAKE} -C ${LIBFT_PATH} clean

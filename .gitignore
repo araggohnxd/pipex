@@ -53,6 +53,6 @@ dkms.conf
 
 pipex
 main.c
-infile
-outfile
+infile*
+outfile*
 .vscode/
