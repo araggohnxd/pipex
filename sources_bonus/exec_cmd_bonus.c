@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:22:12 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/11 05:33:55 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/11 19:39:36 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	ft_exec_nth_cmd(t_data *data, int index)
 {
 	int	i;
 
-	dup2(data->pipe_fd[index - 1][READ], STDIN);
-	dup2(data->pipe_fd[index][WRITE], STDOUT);
+	if (dup2(data->pipe_fd[index - 1][READ], STDIN) < 0)
+		ft_set_perror(data, EXIT_FAILURE, "error duping file descriptors");
+	if (dup2(data->pipe_fd[index][WRITE], STDOUT) < 0)
+		ft_set_perror(data, EXIT_FAILURE, "error duping file descriptors");
 	i = -1;
 	while (++i < data->pipe_count)
 	{
@@ -39,8 +41,10 @@ void	ft_exec_first_cmd(t_data *data)
 	data->infile_fd = open(data->infile, O_RDONLY);
 	if (data->infile_fd < 0)
 		ft_set_perror(data, EXIT_FAILURE, data->infile);
-	dup2(data->infile_fd, STDIN);
-	dup2(data->pipe_fd[0][WRITE], STDOUT);
+	if (dup2(data->infile_fd, STDIN) < 0)
+		ft_set_perror(data, EXIT_FAILURE, "error duping file descriptors");
+	if (dup2(data->pipe_fd[0][WRITE], STDOUT) < 0)
+		ft_set_perror(data, EXIT_FAILURE, "error duping file descriptors");
 	index = -1;
 	while (++index < data->pipe_count)
 	{
@@ -63,8 +67,10 @@ void	ft_exec_last_cmd(t_data *data)
 	data->outfile_fd = open(data->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (data->outfile_fd < 0)
 		ft_set_perror(data, EXIT_FAILURE, data->outfile);
-	dup2(data->outfile_fd, STDOUT);
-	dup2(data->pipe_fd[(data->pipe_count - 1)][READ], STDIN);
+	if (dup2(data->outfile_fd, STDOUT) < 0)
+		ft_set_perror(data, EXIT_FAILURE, "error duping file descriptors");
+	if (dup2(data->pipe_fd[(data->pipe_count - 1)][READ], STDIN) < 0)
+		ft_set_perror(data, EXIT_FAILURE, "error duping file descriptors");
 	index = -1;
 	while (++index < data->pipe_count)
 	{
