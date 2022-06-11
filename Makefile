@@ -58,7 +58,7 @@ clean:
 
 fclean:				clean
 					${MAKE} -C ${LIBFT_PATH} fclean
-					${REMOVE} ${NAME}
+					${REMOVE} ${NAME} ${NAME_BONUS}
 
 re:					fclean all
 
