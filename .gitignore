@@ -56,3 +56,6 @@ main.c
 infile*
 outfile*
 .vscode/
+PIPEXaminator/
+pipex-tester/
+PipexTester/

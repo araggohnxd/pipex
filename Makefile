@@ -2,7 +2,7 @@ NAME				= pipex
 
 HEADER				= ${SRCS_PATH}/pipex.h
 
-SRCS_FILE			= pipex.c argument_parser.c command_execution.c
+SRCS_FILE			= pipex.c argument_parser.c error_management.c exec_cmd.c
 SRCS_PATH			= ./sources
 SRCS				= ${addprefix ${SRCS_PATH}/,${SRCS_FILE}}
 

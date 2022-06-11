@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 02:17:00 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/10 22:24:03 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/11 03:35:23 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_init_exec(t_data *data)
 	{
 		data->pid[index] = fork();
 		if (data->pid[index] < 0)
-			perror("pipex: error creating fork");
+			ft_set_perror(data, EXIT_FAILURE, "error creating fork");
 		else if (data->pid[index] == 0)
 		{
 			if (index == 0)
@@ -43,11 +43,7 @@ static void	ft_init_exec(t_data *data)
 static void	ft_init_pipe(t_data *data)
 {
 	if (pipe(data->pipe_fd) < 0)
-	{
-		perror("pipex: error creating pipe");
-		ft_free_pipex(data);
-		exit(EXIT_FAILURE);
-	}
+		ft_set_perror(data, EXIT_FAILURE, "error creating pipe");
 }
 
 static void	ft_init_data(t_data *data, int argc, char **argv, char **envp)

@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:23:07 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/10 22:23:17 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/11 03:36:04 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ void	ft_set_perror(t_data *data, int error_id, char *str)
 	}
 	else
 		perror(str);
-	close(data->pipe_fd[READ]);
-	close(data->pipe_fd[WRITE]);
+	if (data->pipe_fd[READ] > 0)
+		close(data->pipe_fd[READ]);
+	if (data->pipe_fd[WRITE] > 0)
+		close(data->pipe_fd[WRITE]);
 	ft_free_pipex(data);
 	exit(error_id);
 }
