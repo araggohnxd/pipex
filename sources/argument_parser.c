@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 12:45:44 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/10 22:21:38 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/11 03:59:30 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ char	**ft_parse_cmd_args(char *cmd)
 	size_t	i;
 	char	**split;
 
-	ft_replace_quoted_arg(&cmd, ' ', '%');
+	ft_replace_quoted_arg(&cmd, ' ', 1);
 	split = ft_split(cmd, ' ');
 	if (!split)
 		return (NULL);
 	i = 0;
 	while (split[i])
-		ft_replace_quoted_arg(&split[i++], '%', ' ');
+		ft_replace_quoted_arg(&split[i++], 1, ' ');
 	return (split);
 }
 
