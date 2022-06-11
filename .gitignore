@@ -52,6 +52,7 @@ Mkfile.old
 dkms.conf
 
 pipex
+pipex_bonus
 main.c
 infile*
 outfile*
