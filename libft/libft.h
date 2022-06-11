@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:43:19 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/05 22:57:08 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/11 18:20:53 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -538,7 +538,7 @@ void	ft_memfree(void	**ptr);
 * @param split The array to be freed.
 * @return Nothing.
 */
-void	ft_free_split(char ***split);
+void	ft_free_split(void ***split);
 
 /**
 * @brief Copies a string src to a dst until it reaches a newline.

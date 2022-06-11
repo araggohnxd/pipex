@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:23:07 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/11 03:36:04 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/11 19:31:51 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_free_pipex(t_data *data)
 	ft_memfree((void *) &data->cmds[0]);
 	ft_memfree((void *) &data->cmds[1]);
 	ft_memfree((void *) &data->cmds);
-	ft_free_split(&data->args[0]);
-	ft_free_split(&data->args[1]);
+	ft_free_split((void *) &data->args[0]);
+	ft_free_split((void *) &data->args[1]);
 	ft_memfree((void *) &data->args);
 }

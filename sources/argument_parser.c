@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 12:45:44 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/11 03:59:30 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/11 19:31:34 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_parse_env_path(char *envp[], char *cmd)
 			break ;
 		ft_memfree((void *) &current_path);
 	}
-	ft_free_split(&split);
+	ft_free_split((void *) &split);
 	return (current_path);
 }
 

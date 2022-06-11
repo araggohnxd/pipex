@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:08:22 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/03 21:18:42 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/11 18:22:43 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	**ft_fill_split(char **split, const char *s, char c, size_t words)
 		split[index] = (char *) ft_calloc((end - start + 1), sizeof(char));
 		if (!split[index])
 		{
-			ft_free_split(&split);
+			ft_free_split((void *) &split);
 			return (NULL);
 		}
 		ft_strlcpy(split[index], (s + start), (end - start + 1));

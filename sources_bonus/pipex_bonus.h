@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 02:17:23 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/11 05:29:27 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/11 19:29:46 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ char	**ft_parse_cmd_args(char *cmd);
 char	*ft_parse_env_path(char *envp[], char *cmd);
 void	ft_argument_parser(t_data *data);
 void	ft_replace_quoted_arg(char **str, char from, char to);
-void	ft_free_pipeline(int ***pipeline);
 void	ft_free_pipex(t_data *data);
 void	ft_exec_nth_cmd(t_data *data, int index);
 void	ft_exec_first_cmd(t_data *data);
