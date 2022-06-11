@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 12:45:44 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/07 15:42:19 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/10 22:21:38 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ char	*ft_parse_env_path(char *envp[], char *cmd)
 	char	**split;
 	char	*current_path;
 	char	*bin;
-	int		is_accessible;
 
+	if (ft_strchr(cmd, '/'))
+		return (ft_strdup(cmd));
 	while (*envp && ft_strncmp(*envp, "PATH=", 5))
 		envp++;
 	if (!*envp || !cmd)
@@ -31,8 +32,7 @@ char	*ft_parse_env_path(char *envp[], char *cmd)
 		bin = ft_strdup(cmd);
 		current_path = ft_strjoin(split[i++], "/");
 		current_path = ft_strjoin_free(&current_path, &bin);
-		is_accessible = access(current_path, X_OK);
-		if (is_accessible == 0)
+		if (access(current_path, X_OK) == 0)
 			break ;
 		ft_memfree((void *) &current_path);
 	}
@@ -49,9 +49,9 @@ void	ft_replace_quoted_arg(char **str, char from, char to)
 	s = *str;
 	while (s[i])
 	{
-		if (ft_strchr("\'\"", s[i++]))
+		if (ft_strchr("\"'", s[i++]))
 		{
-			while (s[i] != '\'' && s[i] != '\'' && s[i])
+			while (!ft_strchr("\"'", s[i]))
 				if (s[i++] == from)
 					s[i - 1] = to;
 			++i;
@@ -74,12 +74,12 @@ char	**ft_parse_cmd_args(char *cmd)
 	return (split);
 }
 
-void	ft_get_arguments(t_data *data, char *arg, char *envp[])
+void	ft_argument_parser(t_data *data)
 {
-	data->args = ft_parse_cmd_args(arg);
-	if (!data->args)
-		ft_set_error(1, ERRARG);
-	data->cmd = ft_parse_env_path(envp, *(data->args));
-	if (!data->cmd)
-		ft_set_error(2, *(data->args));
+	data->args = (char ***) ft_calloc(3, sizeof(char **));
+	data->args[0] = ft_parse_cmd_args(data->argv[2]);
+	data->args[1] = ft_parse_cmd_args(data->argv[3]);
+	data->cmds = (char **) ft_calloc(3, sizeof(char *));
+	data->cmds[0] = ft_parse_env_path(data->envp, *(data->args[0]));
+	data->cmds[1] = ft_parse_env_path(data->envp, *(data->args[1]));
 }

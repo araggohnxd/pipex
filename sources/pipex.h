@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 02:17:23 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/07 15:43:30 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/10 22:26:28 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,31 @@
 # define STDIN STDIN_FILENO
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
-
-# define ERRUSE "Invalid usage\n"
-# define USAGE "Usage: ./pipex <infile> <cmd1> <cmd2> <outfile>"
-# define ERRARG "An error occurred while parsing arguments"
-# define ERRCMD "An error occurred while parsing commands"
+# define CMD_404 "command not found: "
 
 typedef struct s_data {
-	int		infile;
-	int		outfile;
-	char	*cmd;
-	char	**args;
+	int		argc;
+	char	**argv;
+	char	**envp;
+	char	*infile;
+	char	*outfile;
+	int		infile_fd;
+	int		outfile_fd;
+	char	**cmds;
+	char	***args;
 	int		pipe_fd[2];
-	pid_t	child_pid_1;
-	pid_t	child_pid_2;
+	pid_t	pid[2];
+	int		exit_value;
+	int		child_exit_status;
 }	t_data;
 
-void	ft_set_error(int error_id, char *error_msg);
-void	ft_get_arguments(t_data *data, char *arg, char *envp[]);
 char	**ft_parse_cmd_args(char *cmd);
-void	ft_replace_quoted_arg(char **str, char from, char to);
 char	*ft_parse_env_path(char *envp[], char *cmd);
-void	ft_execute(t_data *data, char *envp[]);
-void	ft_read_infile(t_data *data, char *arg, char *envp[]);
-void	ft_write_outfile(t_data *data, char *arg, char *envp[]);
+void	ft_argument_parser(t_data *data);
+void	ft_replace_quoted_arg(char **str, char from, char to);
+void	ft_free_pipex(t_data *data);
+void	ft_exec_first_cmd(t_data *data);
+void	ft_exec_last_cmd(t_data *data);
+void	ft_set_perror(t_data *data, int error_id, char *str);
 
 #endif /* PIPEX_H */
