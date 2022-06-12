@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 02:17:23 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/12 14:25:26 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/12 15:12:34 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ typedef struct s_data {
 	int		child_exit_status;
 }	t_data;
 
+void	ft_init_data(t_data *data, int argc, char **argv, char **envp);
+void	ft_init_here_doc(t_data *data, int argc, char **argv, char **envp);
+void	ft_init_exec(t_data *data);
 void	ft_argument_parser(t_data *data);
 void	ft_free_pipex(t_data *data);
 void	ft_exec_nth_cmd(t_data *data, int index);

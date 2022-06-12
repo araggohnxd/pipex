@@ -12,7 +12,7 @@ OBJS_FILE			= ${SRCS_FILE:.c=.o}
 OBJS				= ${addprefix ${OBJS_PATH}/,${OBJS_FILE}}
 
 SRCS_FILE_BONUS		= pipex_bonus.c argument_parser_bonus.c exec_cmd_bonus.c \
-					error_management_bonus.c pipe_and_pid_bonus.c
+					error_management_bonus.c pipe_and_pid_bonus.c init_struct_bonus.c
 SRCS_PATH_BONUS		= ${SRCS_PATH}_bonus
 SRCS_BONUS			= ${addprefix ${SRCS_PATH_BONUS}/,${SRCS_FILE_BONUS}}
 
@@ -49,9 +49,6 @@ ${OBJS_PATH}/%.o:	${SRCS_PATH_BONUS}/%.c ${HEADER_BONUS} Makefile | ${OBJS_PATH}
 ${LIBFT}:
 					${MAKE} -C ${LIBFT_PATH} bonus
 
-run:				all
-					./pipex infile_ft "ping -c 3 google.com" "grep rtt" outfile_ft && cat outfile_ft
-
 clean:
 					${MAKE} -C ${LIBFT_PATH} clean
 					${REMOVE} ${OBJS_PATH}
@@ -62,4 +59,4 @@ fclean:				clean
 
 re:					fclean all
 
-.PHONY:				all clean fclean re bonus run
+.PHONY:				all clean fclean re bonus
