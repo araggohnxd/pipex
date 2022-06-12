@@ -6,13 +6,13 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 12:45:44 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/11 18:22:22 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/12 14:25:18 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-char	*ft_parse_env_path(char *envp[], char *cmd)
+static char	*ft_parse_env_path(char *envp[], char *cmd)
 {
 	size_t	i;
 	char	**split;
@@ -40,7 +40,7 @@ char	*ft_parse_env_path(char *envp[], char *cmd)
 	return (current_path);
 }
 
-void	ft_replace_quoted_arg(char **str, char from, char to)
+static void	ft_replace_quoted_arg(char **str, char from, char to)
 {
 	size_t	i;
 	char	*s;
@@ -59,7 +59,7 @@ void	ft_replace_quoted_arg(char **str, char from, char to)
 	}
 }
 
-char	**ft_parse_cmd_args(char *cmd)
+static char	**ft_parse_cmd_args(char *cmd)
 {
 	size_t	i;
 	char	**split;
@@ -81,7 +81,7 @@ void	ft_argument_parser(t_data *data)
 	data->args = (char ***) ft_calloc((data->cmd_count + 1), sizeof(char **));
 	index = -1;
 	while (++index < data->cmd_count)
-		data->args[index] = ft_parse_cmd_args(data->argv[index + 2]);
+		data->args[index] = ft_parse_cmd_args(data->argv[index + data->offset]);
 	data->cmds = (char **) ft_calloc((data->cmd_count + 1), sizeof(char *));
 	index = -1;
 	while (++index < data->cmd_count)
