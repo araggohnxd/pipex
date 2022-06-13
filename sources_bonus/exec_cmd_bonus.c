@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:22:12 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/12 15:12:07 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/13 17:54:34 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_exec_nth_cmd(t_data *data, int index)
 	}
 	if (!data->cmds[index]
 		|| execve(data->cmds[index], data->args[index], data->envp) < 0)
-		ft_set_perror(data, 127, ft_strjoin(CMD_404, data->args[index][0]));
+		ft_set_perror(data, EXIT_FAILURE, "error during execve execution");
 }
 
 void	ft_init_exec(t_data *data)
@@ -38,14 +38,19 @@ void	ft_init_exec(t_data *data)
 	index = -1;
 	while (++index < data->cmd_count)
 	{
-		data->pid[index] = fork();
-		if (data->pid[index] < 0)
-			ft_set_perror(data, EXIT_FAILURE, "error creating fork");
-		else if (data->pid[index] == 0)
-			ft_exec_nth_cmd(data, index);
+		if (!data->cmds[index])
+			ft_set_perror(data, 127, ft_strjoin(CMD_404, data->args[index][0]));
+		else
+		{
+			data->pid[index] = fork();
+			if (data->pid[index] < 0)
+				ft_set_perror(data, EXIT_FAILURE, "error creating fork");
+			else if (data->pid[index] == 0)
+				ft_exec_nth_cmd(data, index);
+		}
 	}
 	index = -1;
-	while (++index < data->cmd_count)
+	while (++index < data->cmd_count && data->pid[index])
 	{
 		close(data->pipe_fd[index][READ]);
 		close(data->pipe_fd[index][WRITE]);
