@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:22:12 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/14 15:42:37 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/14 16:01:23 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ void	ft_init_exec(t_data *data)
 	{
 		if (!data->cmds[index])
 			ft_set_perror(data, ERR_CMD_NOT_FOUND, data->args[index][0]);
+		else if (data->pipe_fd[index][READ] < 0
+			|| data->pipe_fd[index][WRITE] < 0)
+			continue ;
 		else
 		{
 			data->pid[index] = fork();
