@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 02:17:23 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/10 22:26:28 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/14 19:53:33 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@
 
 # define READ 0
 # define WRITE 1
+# define ERR_CMD_NOT_FOUND 2
+# define ERR_IO_FILE 3
 # define STDIN STDIN_FILENO
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
-# define CMD_404 "command not found: "
 
 typedef struct s_data {
 	int		argc;
@@ -34,19 +35,16 @@ typedef struct s_data {
 	int		outfile_fd;
 	char	**cmds;
 	char	***args;
-	int		pipe_fd[2];
+	int		pipe_fd[2][2];
 	pid_t	pid[2];
 	int		exit_value;
 	int		child_exit_status;
 }	t_data;
 
-char	**ft_parse_cmd_args(char *cmd);
-char	*ft_parse_env_path(char *envp[], char *cmd);
 void	ft_argument_parser(t_data *data);
+void	ft_init_exec(t_data *data);
 void	ft_replace_quoted_arg(char **str, char from, char to);
 void	ft_free_pipex(t_data *data);
-void	ft_exec_first_cmd(t_data *data);
-void	ft_exec_last_cmd(t_data *data);
-void	ft_set_perror(t_data *data, int error_id, char *str);
+int		ft_set_perror(t_data *data, int error_id, char *str);
 
 #endif /* PIPEX_H */

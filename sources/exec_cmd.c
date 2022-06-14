@@ -6,40 +6,69 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:22:12 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/11 19:37:18 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/14 19:47:25 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_exec_first_cmd(t_data *data)
+static void	ft_wait(t_data *data)
 {
-	data->infile_fd = open(data->infile, O_RDONLY);
-	if (data->infile_fd < 0)
-		ft_set_perror(data, EXIT_FAILURE, data->infile);
-	if (dup2(data->infile_fd, STDIN) < 0)
-		ft_set_perror(data, EXIT_FAILURE, "error duping file descriptors");
-	if (dup2(data->pipe_fd[WRITE], STDOUT) < 0)
-		ft_set_perror(data, EXIT_FAILURE, "error duping file descriptors");
-	close(data->pipe_fd[READ]);
-	close(data->pipe_fd[WRITE]);
-	close(data->infile_fd);
-	if (!data->cmds[0] || execve(data->cmds[0], data->args[0], data->envp) < 0)
-		ft_set_perror(data, 127, ft_strjoin(CMD_404, data->args[0][0]));
+	int	index;
+
+	index = -1;
+	while (++index < 2 && data->pid[index])
+	{
+		waitpid(data->pid[index], &data->child_exit_status, 0);
+		data->exit_value = WEXITSTATUS(data->child_exit_status);
+	}
+	if (!data->cmds[1])
+			data->exit_value = 127;
 }
 
-void	ft_exec_last_cmd(t_data *data)
+static void	ft_exec_nth_cmd(t_data *data, int index)
 {
-	data->outfile_fd = open(data->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (data->outfile_fd < 0)
-		ft_set_perror(data, EXIT_FAILURE, data->outfile);
-	if (dup2(data->outfile_fd, STDOUT) < 0)
+	int	i;
+
+	if (dup2(data->pipe_fd[index][READ], STDIN) < 0)
 		ft_set_perror(data, EXIT_FAILURE, "error duping file descriptors");
-	if (dup2(data->pipe_fd[READ], STDIN) < 0)
+	if (dup2(data->pipe_fd[index][WRITE], STDOUT) < 0)
 		ft_set_perror(data, EXIT_FAILURE, "error duping file descriptors");
-	close(data->pipe_fd[READ]);
-	close(data->pipe_fd[WRITE]);
-	close(data->outfile_fd);
-	if (!data->cmds[1] || execve(data->cmds[1], data->args[1], data->envp) < 0)
-		ft_set_perror(data, 127, ft_strjoin(CMD_404, data->args[1][0]));
+	i = -1;
+	while (++i < 2)
+	{
+		close(data->pipe_fd[i][READ]);
+		close(data->pipe_fd[i][WRITE]);
+	}
+	if (execve(data->cmds[index], data->args[index], data->envp) < 0)
+		ft_set_perror(data, EXIT_FAILURE, "error during execve execution");
+}
+
+void	ft_init_exec(t_data *data)
+{
+	int	index;
+
+	index = -1;
+	while (++index < 2)
+	{
+		if (!data->cmds[index])
+			ft_set_perror(data, ERR_CMD_NOT_FOUND, data->args[index][0]);
+		else if (data->pipe_fd[index][READ] < 0
+			|| data->pipe_fd[index][WRITE] < 0)
+			continue ;
+		else
+		{
+			data->pid[index] = fork();
+			if (data->pid[index] < 0)
+				ft_set_perror(data, EXIT_FAILURE, "error creating fork");
+			else if (data->pid[index] != 0)
+			{
+				close(data->pipe_fd[index][READ]);
+				close(data->pipe_fd[index][WRITE]);
+			}
+			else
+				ft_exec_nth_cmd(data, index);
+		}
+	}
+	ft_wait(data);
 }

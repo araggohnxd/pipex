@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 15:11:12 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/14 15:42:09 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/14 19:52:00 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	ft_init_data(t_data *data, int argc, char **argv, char **envp)
 	data->envp = envp;
 	data->infile = argv[1];
 	data->outfile = argv[argc - 1];
-	data->infile_fd = open(data->infile, O_RDONLY);
 	data->cmds = NULL;
 	data->args = NULL;
 	data->pipe_fd = NULL;
@@ -51,6 +50,7 @@ void	ft_init_data(t_data *data, int argc, char **argv, char **envp)
 	data->limiter = NULL;
 	data->offset = 2;
 	data->exit_value = 0;
+	data->infile_fd = open(data->infile, O_RDONLY);
 	if (data->infile_fd < 0)
 		ft_set_perror(data, ERR_IO_FILE, data->infile);
 	data->outfile_fd = open(data->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);

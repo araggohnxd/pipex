@@ -6,44 +6,26 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 02:17:00 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/11 03:35:23 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/14 19:52:07 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	ft_init_exec(t_data *data)
-{
-	int	index;
-
-	index = -1;
-	while (++index < 2)
-	{
-		data->pid[index] = fork();
-		if (data->pid[index] < 0)
-			ft_set_perror(data, EXIT_FAILURE, "error creating fork");
-		else if (data->pid[index] == 0)
-		{
-			if (index == 0)
-				ft_exec_first_cmd(data);
-			else
-				ft_exec_last_cmd(data);
-		}
-	}
-	close(data->pipe_fd[READ]);
-	close(data->pipe_fd[WRITE]);
-	index = -1;
-	while (++index < 2)
-	{
-		waitpid(data->pid[index], &data->child_exit_status, 0);
-		data->exit_value = WEXITSTATUS(data->child_exit_status);
-	}
-}
-
 static void	ft_init_pipe(t_data *data)
 {
-	if (pipe(data->pipe_fd) < 0)
+	if (pipe(data->pipe_fd[0]) < 0)
 		ft_set_perror(data, EXIT_FAILURE, "error creating pipe");
+	if (pipe(data->pipe_fd[1]) < 0)
+		ft_set_perror(data, EXIT_FAILURE, "error creating pipe");
+	if (data->infile_fd >= 0)
+	{
+		close(data->pipe_fd[0][READ]);
+		data->pipe_fd[0][READ] = data->infile_fd;
+	}
+	close(data->pipe_fd[0][WRITE]);
+	data->pipe_fd[0][WRITE] = data->pipe_fd[1][WRITE];
+	data->pipe_fd[1][WRITE] = data->outfile_fd;
 }
 
 static void	ft_init_data(t_data *data, int argc, char **argv, char **envp)
@@ -56,6 +38,12 @@ static void	ft_init_data(t_data *data, int argc, char **argv, char **envp)
 	data->cmds = NULL;
 	data->args = NULL;
 	data->exit_value = 0;
+	data->infile_fd = open(data->infile, O_RDONLY);
+	if (data->infile_fd < 0)
+		ft_set_perror(data, ERR_IO_FILE, data->infile);
+	data->outfile_fd = open(data->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (data->outfile_fd < 0)
+		ft_set_perror(data, ERR_IO_FILE, data->outfile);
 }
 
 int	main(int argc, char **argv, char **envp)
