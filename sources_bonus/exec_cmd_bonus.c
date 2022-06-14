@@ -6,13 +6,29 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:22:12 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/13 17:54:34 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/14 13:08:35 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	ft_exec_nth_cmd(t_data *data, int index)
+static void	ft_close_and_wait(t_data *data)
+{
+	int	index;
+
+	index = -1;
+	while (++index < data->cmd_count && data->pid[index])
+	{
+		close(data->pipe_fd[index][READ]);
+		close(data->pipe_fd[index][WRITE]);
+		waitpid(data->pid[index], &data->child_exit_status, 0);
+		data->exit_value = WEXITSTATUS(data->child_exit_status);
+	}
+	if (!data->cmds[data->cmd_count - 1])
+			data->exit_value = 127;
+}
+
+static void	ft_exec_nth_cmd(t_data *data, int index)
 {
 	int	i;
 
@@ -26,8 +42,7 @@ void	ft_exec_nth_cmd(t_data *data, int index)
 		close(data->pipe_fd[i][READ]);
 		close(data->pipe_fd[i][WRITE]);
 	}
-	if (!data->cmds[index]
-		|| execve(data->cmds[index], data->args[index], data->envp) < 0)
+	if (execve(data->cmds[index], data->args[index], data->envp) < 0)
 		ft_set_perror(data, EXIT_FAILURE, "error during execve execution");
 }
 
@@ -49,12 +64,5 @@ void	ft_init_exec(t_data *data)
 				ft_exec_nth_cmd(data, index);
 		}
 	}
-	index = -1;
-	while (++index < data->cmd_count && data->pid[index])
-	{
-		close(data->pipe_fd[index][READ]);
-		close(data->pipe_fd[index][WRITE]);
-		waitpid(data->pid[index], &data->child_exit_status, 0);
-		data->exit_value = WEXITSTATUS(data->child_exit_status);
-	}
+	ft_close_and_wait(data);
 }
