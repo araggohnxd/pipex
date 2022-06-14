@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 15:11:12 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/12 15:13:46 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/14 15:42:09 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_init_here_doc(t_data *data, int argc, char **argv, char **envp)
 	data->infile_fd = -1;
 	data->outfile_fd = open(data->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (data->outfile_fd < 0)
-		ft_set_perror(data, EXIT_FAILURE, data->outfile);
+		ft_set_perror(data, ERR_IO_FILE, data->outfile);
 }
 
 void	ft_init_data(t_data *data, int argc, char **argv, char **envp)
@@ -52,8 +52,8 @@ void	ft_init_data(t_data *data, int argc, char **argv, char **envp)
 	data->offset = 2;
 	data->exit_value = 0;
 	if (data->infile_fd < 0)
-		ft_set_perror(data, EXIT_FAILURE, data->infile);
+		ft_set_perror(data, ERR_IO_FILE, data->infile);
 	data->outfile_fd = open(data->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (data->outfile_fd < 0)
-		ft_set_perror(data, EXIT_FAILURE, data->outfile);
+		ft_set_perror(data, ERR_IO_FILE, data->outfile);
 }

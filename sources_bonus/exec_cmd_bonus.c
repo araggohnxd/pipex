@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:22:12 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/14 13:08:35 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/14 15:42:37 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_init_exec(t_data *data)
 	while (++index < data->cmd_count)
 	{
 		if (!data->cmds[index])
-			ft_set_perror(data, 127, ft_strjoin(CMD_404, data->args[index][0]));
+			ft_set_perror(data, ERR_CMD_NOT_FOUND, data->args[index][0]);
 		else
 		{
 			data->pid[index] = fork();

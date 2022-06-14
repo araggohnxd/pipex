@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 02:17:23 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/12 15:12:34 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/14 15:43:07 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@
 
 # define READ 0
 # define WRITE 1
+# define ERR_CMD_NOT_FOUND 2
+# define ERR_IO_FILE 3
 # define STDIN STDIN_FILENO
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
-# define CMD_404 "command not found: "
 
 typedef struct s_data {
 	int		argc;
@@ -49,9 +50,8 @@ void	ft_init_here_doc(t_data *data, int argc, char **argv, char **envp);
 void	ft_init_exec(t_data *data);
 void	ft_argument_parser(t_data *data);
 void	ft_free_pipex(t_data *data);
-void	ft_exec_nth_cmd(t_data *data, int index);
-void	ft_set_perror(t_data *data, int error_id, char *str);
 void	ft_init_pipe(t_data *data);
 void	ft_init_pid(t_data *data);
+int		ft_set_perror(t_data *data, int error_id, char *str);
 
 #endif /* PIPEX_BONUS_H */

@@ -6,26 +6,37 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:23:07 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/13 17:46:32 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/14 15:48:13 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	ft_set_perror(t_data *data, int error_id, char *str)
+static int	ft_error_file(char *str)
+{
+	perror(str);
+	return (0);
+}
+
+static int	ft_error_command(char *str)
+{
+	ft_putstr_fd("command not found: ", STDERR);
+	ft_putendl_fd(str, STDERR);
+	return (0);
+}
+
+int	ft_set_perror(t_data *data, int error_id, char *str)
 {
 	ft_putstr_fd("pipex_bonus: ", STDERR);
-	if (error_id == 127)
-	{
-		ft_putendl_fd(str, STDERR);
-		free(str);
-		return ;
-	}
+	if (error_id == ERR_CMD_NOT_FOUND)
+		return (ft_error_command(str));
+	else if (error_id == ERR_IO_FILE)
+		return (ft_error_file(str));
 	else
 		perror(str);
-	if (data->args)
-		ft_free_pipex(data);
+	ft_free_pipex(data);
 	exit(error_id);
+	return (error_id);
 }
 
 void	ft_free_pipex(t_data *data)
