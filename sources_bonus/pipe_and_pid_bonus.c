@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 04:59:17 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/12 14:20:17 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/14 19:02:05 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,22 @@ static void	ft_read_here_doc_input(t_data *data)
 	ft_memfree((void *) &gnl);
 }
 
+static void	ft_build_pipeline(t_data *data)
+{
+	int	index;
+
+	close(data->pipe_fd[0][READ]);
+	close(data->pipe_fd[0][WRITE]);
+	if (data->here_doc)
+		ft_read_here_doc_input(data);
+	else
+		data->pipe_fd[0][READ] = data->infile_fd;
+	index = -1;
+	while (++index < (data->cmd_count - 1))
+		data->pipe_fd[index][WRITE] = data->pipe_fd[index + 1][WRITE];
+	data->pipe_fd[data->cmd_count - 1][WRITE] = data->outfile_fd;
+}
+
 void	ft_init_pipe(t_data *data)
 {
 	int	index;
@@ -58,14 +74,7 @@ void	ft_init_pipe(t_data *data)
 		if (pipe(data->pipe_fd[index]) < 0)
 			ft_set_perror(data, EXIT_FAILURE, "error creating pipe");
 	}
-	if (data->here_doc)
-		ft_read_here_doc_input(data);
-	else
-		data->pipe_fd[0][READ] = data->infile_fd;
-	index = -1;
-	while (++index < (data->cmd_count - 1))
-		data->pipe_fd[index][WRITE] = data->pipe_fd[index + 1][WRITE];
-	data->pipe_fd[data->cmd_count - 1][WRITE] = data->outfile_fd;
+	ft_build_pipeline(data);
 }
 
 void	ft_init_pid(t_data *data)
