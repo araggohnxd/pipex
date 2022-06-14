@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 04:59:17 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/14 19:02:05 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/14 19:30:28 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ static void	ft_build_pipeline(t_data *data)
 {
 	int	index;
 
-	close(data->pipe_fd[0][READ]);
-	close(data->pipe_fd[0][WRITE]);
 	if (data->here_doc)
 		ft_read_here_doc_input(data);
-	else
+	else if (data->infile_fd >= 0)
+	{
+		close(data->pipe_fd[0][READ]);
 		data->pipe_fd[0][READ] = data->infile_fd;
+	}
+	close(data->pipe_fd[0][WRITE]);
 	index = -1;
 	while (++index < (data->cmd_count - 1))
 		data->pipe_fd[index][WRITE] = data->pipe_fd[index + 1][WRITE];
