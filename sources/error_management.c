@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:23:07 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/14 19:56:12 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/16 18:34:09 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static int	ft_error_file(char *str)
 
 static int	ft_error_command(char *str)
 {
-	ft_putstr_fd("command not found: ", STDERR);
-	ft_putendl_fd(str, STDERR);
+	ft_putstr_fd(str, STDERR);
+	ft_putendl_fd(": Command not found", STDERR);
 	return (0);
 }
 

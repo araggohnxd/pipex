@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 12:45:44 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/12 14:25:18 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/16 19:53:57 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*ft_parse_env_path(char *envp[], char *cmd)
 	char	*current_path;
 	char	*bin;
 
-	if (ft_strchr(cmd, '/'))
+	if (cmd && ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
 	while (*envp && ft_strncmp(*envp, "PATH=", 5))
 		envp++;
@@ -51,10 +51,11 @@ static void	ft_replace_quoted_arg(char **str, char from, char to)
 	{
 		if (ft_strchr("\"'", s[i++]))
 		{
-			while (!ft_strchr("\"'", s[i]))
+			while (s[i] && !ft_strchr("\"'", s[i]))
 				if (s[i++] == from)
 					s[i - 1] = to;
-			++i;
+			if (s[i])
+				++i;
 		}
 	}
 }
