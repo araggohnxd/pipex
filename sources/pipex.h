@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 02:17:23 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/14 19:53:33 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/16 01:22:48 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef struct s_data {
 
 void	ft_argument_parser(t_data *data);
 void	ft_init_exec(t_data *data);
-void	ft_replace_quoted_arg(char **str, char from, char to);
 void	ft_free_pipex(t_data *data);
 int		ft_set_perror(t_data *data, int error_id, char *str);
 
