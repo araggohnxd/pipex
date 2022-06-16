@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 02:17:00 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/14 19:52:07 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/16 17:42:17 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static void	ft_init_data(t_data *data, int argc, char **argv, char **envp)
 	data->outfile = argv[4];
 	data->cmds = NULL;
 	data->args = NULL;
+	data->pid[0] = 0;
+	data->pid[1] = 0;
 	data->exit_value = 0;
 	data->infile_fd = open(data->infile, O_RDONLY);
 	if (data->infile_fd < 0)
