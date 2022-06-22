@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 02:17:00 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/21 21:31:51 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/21 21:34:13 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_putendl_fd("<LIMITER> <cmd1> <cmd2> ... <cmdn> <outfile>", STDERR);
 		exit(EXIT_FAILURE);
 	}
-	else if (argc >= 6 && ft_strncmp(argv[1], "here_doc", 8) == 0)
+	else if (argc >= 6 && ft_strncmp(argv[1], "here_doc\0", 9) == 0)
 		ft_init_here_doc(&data, argc, argv, envp);
 	else
 		ft_init_data(&data, argc, argv, envp);
