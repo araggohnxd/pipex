@@ -6,7 +6,7 @@
 /*   By: maolivei <maolivei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 02:17:00 by maolivei          #+#    #+#             */
-/*   Updated: 2022/06/12 15:11:58 by maolivei         ###   ########.fr       */
+/*   Updated: 2022/06/21 21:31:51 by maolivei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc < 5)
 	{
-		ft_putendl_fd("pipex: Too few arguments", STDERR);
-		ft_putendl_fd(
-			"Usage: ./pipex <infile> <cmd1> <cmd2>...<cmdn> <outfile>",
-			STDERR);
-		ft_putendl_fd(
-			"      ./pipex here_doc <LIMITER> <cmd1> <cmd2>...<cmdn> <outfile>",
-			STDERR);
+		ft_putendl_fd("pipex_bonus: Too few arguments", STDERR);
+		ft_putstr_fd("Usage: ", STDERR);
+		ft_putstr_fd("./pipex_bonus ", STDERR);
+		ft_putendl_fd("<infile> <cmd1> <cmd2> ... <cmdn> <outfile>", STDERR);
+		ft_putstr_fd("       ./pipex_bonus ", STDERR);
+		ft_putendl_fd("<LIMITER> <cmd1> <cmd2> ... <cmdn> <outfile>", STDERR);
 		exit(EXIT_FAILURE);
 	}
 	else if (argc >= 6 && ft_strncmp(argv[1], "here_doc", 8) == 0)
